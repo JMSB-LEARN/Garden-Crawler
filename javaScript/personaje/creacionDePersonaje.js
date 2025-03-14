@@ -15,4 +15,4 @@ personaje.sembrado.ganarExperiencia(1002);
 console.log("Hibridacion");
 personaje.hibridacion.ganarExperiencia(2002);
 console.log("Cosecha");
-personaje.cosecha.ganarExperiencia(1002);
+personaje.recolecion.ganarExperiencia(1002);
