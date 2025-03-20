@@ -8,24 +8,26 @@ import { Tienda } from "../tienda.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     var personaje = window.personaje;
-    
+
     if (!personaje) {
         console.error("No hay personaje cargado aún.");
         return;
     }
 
-    console.log(window.personaje);
+
+    console.log(personaje);
+    console.log("gggggg");
     personaje.sembrado.ganarExperiencia(99);
     console.log(personaje);
     personaje.sembrado.ganarExperiencia(2);
     console.log(personaje);
     console.log("Sembrado");
-    personaje.sembrado.ganarExperiencia(1002);
+    personaje.sembrado.ganarExperiencia(12);
     console.log("Hibridacion");
-    personaje.hibridacion.ganarExperiencia(2002);
+    personaje.hibridacion.ganarExperiencia(22);
     console.log("Cosecha");
-    personaje.recolecion.ganarExperiencia(1002);
-    personaje.ganarDinero(2000);
+    personaje.recolecion.ganarExperiencia(10);
+    personaje.ganarDinero(100);
     const tienda = new Tienda();
 
     // Creación de objetos
@@ -51,4 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mostrar estado final del personaje
     console.log(`Dinero restante del personaje: ${personaje.dinero}`);
     personaje.inventario.mostrarInventario();
+    localStorage.clear();
+
 });

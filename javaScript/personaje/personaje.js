@@ -80,39 +80,32 @@ export class Personaje {
             data.base.descripcion,
             null
         );
-        personaje.base.experiencia = data.base.experiencia;
-        personaje.base.nivel = data.base.nivel;
-        personaje.base.limiteExperienciaNivel = data.base.limiteExperienciaNivel;
     
         personaje.recolecion = new Habilidad(
             data.recolecion.nombre,
             data.recolecion.descripcion,
-            personaje.base, // ← clave aquí
-            data.recolecion.multiplicadorSubidaDeExperiencia
+            personaje.base
         );
-        personaje.recolecion.experiencia = data.recolecion.experiencia;
-        personaje.recolecion.nivel = data.recolecion.nivel;
-        personaje.recolecion.limiteExperienciaNivel = data.recolecion.limiteExperienciaNivel;
+        personaje.recolecion.multiplicadorSubidaDeExperiencia;
+        personaje.recolecion.ganarExperiencia(data.recolecion.experienciaTotalBruta);
     
         personaje.sembrado = new Habilidad(
             data.sembrado.nombre,
             data.sembrado.descripcion,
-            personaje.base,
-            data.sembrado.multiplicadorSubidaDeExperiencia
+            personaje.base
         );
-        personaje.sembrado.experiencia = data.sembrado.experiencia;
-        personaje.sembrado.nivel = data.sembrado.nivel;
-        personaje.sembrado.limiteExperienciaNivel = data.sembrado.limiteExperienciaNivel;
+
+        personaje.sembrado.multiplicadorSubidaDeExperiencia;
+        personaje.sembrado.ganarExperiencia(data.sembrado.experienciaTotalBruta);
     
         personaje.hibridacion = new Habilidad(
             data.hibridacion.nombre,
             data.hibridacion.descripcion,
-            personaje.base,
-            data.hibridacion.multiplicadorSubidaDeExperiencia
+            personaje.base
         );
-        personaje.hibridacion.experiencia = data.hibridacion.experiencia;
-        personaje.hibridacion.nivel = data.hibridacion.nivel;
-        personaje.hibridacion.limiteExperienciaNivel = data.hibridacion.limiteExperienciaNivel;
+
+        personaje.hibridacion.multiplicadorSubidaDeExperiencia;
+        personaje.hibridacion.ganarExperiencia(data.hibridacion.experienciaTotalBruta);
     
         // Restaurar inventario correctamente
         personaje.inventario = new Inventario(data.inventario.length);
