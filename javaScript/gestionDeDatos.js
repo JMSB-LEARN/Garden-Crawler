@@ -2,6 +2,7 @@ import { Personaje } from "./personaje/personaje.js";
 import { Segador } from "./personaje/segador.js";
 import { Susurrador } from "./personaje/susurrador.js";
 import { Cientifico } from "./personaje/cientifico.js";
+import { IndiceGeneralObjetos } from "./indiceGeneralObjetos.js";
 
 window.personaje = null;
 
@@ -20,8 +21,9 @@ function cargarPersonaje() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    window.IGO = new IndiceGeneralObjetos();
     window.personaje = cargarPersonaje();
-    
+
     if (!window.personaje) {
         console.log('No existe un personaje guardado, creando uno nuevo...');
         window.personaje = new Personaje("Aventurero", Segador);

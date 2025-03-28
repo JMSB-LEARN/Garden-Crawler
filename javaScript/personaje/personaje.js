@@ -5,12 +5,15 @@ import { Habilidad } from "./habilidad.js";
 import { Segador } from "./segador.js";
 import { Susurrador } from "./susurrador.js";
 import { Cientifico } from "./cientifico.js";
+import { Arma } from "../objetos/arma.js";
+import { Armadura } from "../objetos/armadura.js";
+import { Entidad } from "../entidad.js";
 
-export class Personaje {
+export class Personaje extends Entidad {
     constructor(nombre, clase, arma, armadura) {
+        super(100, new Inventario(20), 0, 0);
         this.nombre = nombre;
         this.clase = clase;
-        this.vida = 100;
         this.dinero = 185; //§
 
         this.base = new Habilidad("General", "Descripcion Niveles", null)
@@ -18,7 +21,7 @@ export class Personaje {
         this.recolecion = new Habilidad("Recoleccion", "Descripcion Recoleciion", this.base);
         this.sembrado = new Habilidad("Sembrado", "Descripcion Sembrado", this.base);
         this.hibridacion = new Habilidad("Hibridacion", "Descripcion Hibridacion", this.base);
-        
+
         switch (clase.name) {
             case "Segador":
                 this.recolecion.multiplicadorSubidaDeExperiencia += 0.3;
@@ -33,7 +36,6 @@ export class Personaje {
                 console.warn(`Clase desconocida: ${clase.classname}`);
                 break;
         }
-        this.inventario = new Inventario(20);
 
         if (arma) this.equiparItem(arma);
         if (armadura) this.equiparItem(armadura);
@@ -44,9 +46,9 @@ export class Personaje {
         if (!objeto) return;
         this.inventario.push(objeto);
     }
-    
-    ganarDinero(cantidad){
-        this.dinero+=cantidad;
+
+    ganarDinero(cantidad) {
+        this.dinero += cantidad;
     }
 
     serializar() {
@@ -59,65 +61,45 @@ export class Personaje {
             recolecion: this.recolecion,
             sembrado: this.sembrado,
             hibridacion: this.hibridacion,
-            inventario: this.inventario.slots,
+            inventarioSlots: this.inventario.slots,
+            inventarioIndice: this.inventario.index,
+        });
+    }
+    serializarInventario(slotsInventario) {
+        let idsInventario = new Array(slotsInventario.length);
+        idsInventario.forEach((slot, i) => {
+            idsInventario[i] = slot.getId()
         });
     }
 
+
     static deserializar(jsonString) {
         const data = JSON.parse(jsonString);
-    
+
         const clases = { Segador, Susurrador, Cientifico };
         let claseTrabajo = clases[data.clase] || ClaseTrabajo;
-    
+
         const personaje = new Personaje(data.nombre, claseTrabajo);
-    
-        personaje.vida = data.vida;
         personaje.dinero = data.dinero;
-    
-        // Restaurar habilidades correctamente
-        personaje.base = new Habilidad(
-            data.base.nombre,
-            data.base.descripcion,
-            null
-        );
-    
-        personaje.recolecion = new Habilidad(
-            data.recolecion.nombre,
-            data.recolecion.descripcion,
-            personaje.base
-        );
-        personaje.recolecion.multiplicadorSubidaDeExperiencia;
+
         personaje.recolecion.ganarExperiencia(data.recolecion.experienciaTotalBruta);
-    
-        personaje.sembrado = new Habilidad(
-            data.sembrado.nombre,
-            data.sembrado.descripcion,
-            personaje.base
-        );
 
-        personaje.sembrado.multiplicadorSubidaDeExperiencia;
         personaje.sembrado.ganarExperiencia(data.sembrado.experienciaTotalBruta);
-    
-        personaje.hibridacion = new Habilidad(
-            data.hibridacion.nombre,
-            data.hibridacion.descripcion,
-            personaje.base
-        );
 
-        personaje.hibridacion.multiplicadorSubidaDeExperiencia;
         personaje.hibridacion.ganarExperiencia(data.hibridacion.experienciaTotalBruta);
-    
-        // Restaurar inventario correctamente
-        personaje.inventario = new Inventario(data.inventario.length);
-        personaje.inventario.slots = data.inventario;
-    
-        personaje.vida = data.vida;
+
+        personaje.inventario = new Inventario(data.inventarioSlots.length);
+        data.inventarioSlots.forEach((item, i) => {
+            if (item) {
+                personaje.inventario.push(personaje.inventario.getObjeto(item.id))
+            }
+        });
+
+        personaje.vidaMaxima = data.vidaMaxima;
         personaje.dinero = data.dinero;
-    
+
         return personaje;
     }
-    
-
 
 
 }

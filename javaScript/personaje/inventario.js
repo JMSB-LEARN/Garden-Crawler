@@ -5,6 +5,9 @@ export class Inventario {
     tamanno;
     slots;
     constructor(tamanno) {
+        if(!tamanno){
+            tamanno=10
+        }
         this.tamanno = tamanno;
         this.slots = new Array(tamanno).fill(null);;
         this.index = 0;
@@ -16,13 +19,27 @@ export class Inventario {
         }
         this.slots[this.index++] = objeto;
     }
+    
+    convertirEnObjeto(index) {
+        if (index && typeof index === 'object' && 'objeto' in index) {
+            return index.objeto;
+        }
+        return this.slots[index]?.objeto;
+    }
+    
+
 
     mostrarInventario() {
         this.slots.forEach((item, i) => {
             if (item)
-                console.log(`[${i}] ${item.nombre} - ${item.descripcion}`);
+                console.log(`[${i}] ${item.objeto.nombre} - ${item.objeto.descripcion}`);
             else
                 console.log(`[${i}] (vacío)`);
         });
+    }
+    getObjeto(indiceIGO){
+        console.log(window.IGO)
+        let temp= window.IGO.inventario.slots[indiceIGO];
+        return temp;
     }
 }
