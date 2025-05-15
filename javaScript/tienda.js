@@ -35,7 +35,7 @@ export class Tienda {
 
         if (personaje.dinero >= objeto.precio) {
             personaje.dinero -= objeto.precio;
-            personaje.equiparItem(objetoPadre);
+            personaje.annadirItem(objetoPadre);
             console.log(`${personaje.nombre} ha comprado ${objeto.nombre}.`);
         } else {
             console.log("Dinero insuficiente para comprar este objeto.");

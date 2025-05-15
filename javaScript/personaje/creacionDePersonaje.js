@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
     personaje.ganarDinero(100000);
     
     const tienda = new Tienda();
-
+    personaje.equiparObjeto(0);
+    personaje.equiparObjeto(1);
 
     // Mostrar objetos en tienda
     tienda.mostrarObjetos();

@@ -1,16 +1,15 @@
 import { Objeto } from "../objetos/objeto.js";
 
 export class Inventario {
-    index;
-    tamanno;
-    slots;
     constructor(tamanno) {
-        if(!tamanno){
-            tamanno=10
+        if (!tamanno) {
+            tamanno = 10
         }
         this.tamanno = tamanno;
         this.slots = new Array(tamanno).fill(null);;
         this.index = 0;
+        this.armaEquipada = null;
+        this.armaduraEquipada = null;
     }
     push(objeto) {
         if (this.index >= this.tamanno) {
@@ -19,14 +18,14 @@ export class Inventario {
         }
         this.slots[this.index++] = objeto;
     }
-    
+
     convertirEnObjeto(index) {
         if (index && typeof index === 'object' && 'objeto' in index) {
             return index.objeto;
         }
         return this.slots[index]?.objeto;
     }
-    
+
 
 
     mostrarInventario() {
@@ -37,9 +36,9 @@ export class Inventario {
                 console.log(`[${i}] (vacío)`);
         });
     }
-    getObjeto(indiceIGO){
+    getObjeto(indiceIGO) {
         console.log(window.IGO)
-        let temp= window.IGO.inventario.slots[indiceIGO];
+        let temp = window.IGO.inventario.slots[indiceIGO];
         return temp;
     }
 }

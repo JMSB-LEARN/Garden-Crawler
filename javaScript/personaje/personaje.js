@@ -37,15 +37,11 @@ export class Personaje extends Entidad {
                 break;
         }
 
-        if (arma) this.equiparItem(arma);
-        if (armadura) this.equiparItem(armadura);
+        if (arma) this.annadirItem(arma);
+        if (armadura) this.annadirItem(armadura);
 
     }
 
-    equiparItem(objeto) {
-        if (!objeto) return;
-        this.inventario.push(objeto);
-    }
 
     ganarDinero(cantidad) {
         this.dinero += cantidad;
@@ -63,6 +59,8 @@ export class Personaje extends Entidad {
             hibridacion: this.hibridacion,
             inventarioSlots: this.inventario.slots,
             inventarioIndice: this.inventario.index,
+            armaEquipada:this.inventario.armaEquipada,
+            armaduraEquipada:this.inventario.armaduraEquipada,
         });
     }
     serializarInventario(slotsInventario) {
@@ -80,24 +78,22 @@ export class Personaje extends Entidad {
         let claseTrabajo = clases[data.clase] || ClaseTrabajo;
 
         const personaje = new Personaje(data.nombre, claseTrabajo);
+        let inventario= personaje.inventario;
+        inventario = new Inventario(data.inventarioSlots.length);
         personaje.dinero = data.dinero;
-
+        personaje.vidaMaxima = data.vidaMaxima;
         personaje.recolecion.ganarExperiencia(data.recolecion.experienciaTotalBruta);
-
         personaje.sembrado.ganarExperiencia(data.sembrado.experienciaTotalBruta);
-
         personaje.hibridacion.ganarExperiencia(data.hibridacion.experienciaTotalBruta);
 
-        personaje.inventario = new Inventario(data.inventarioSlots.length);
         data.inventarioSlots.forEach((item, i) => {
             if (item) {
-                personaje.inventario.push(personaje.inventario.getObjeto(item.id))
+                inventario.push(inventario.getObjeto(item.id))
             }
         });
-
-        personaje.vidaMaxima = data.vidaMaxima;
-        personaje.dinero = data.dinero;
-
+        debugger;
+        equiparObjeto(data.armaEquipada)
+        equiparObjeto(data.armaduraEquipada)
         return personaje;
     }
 
